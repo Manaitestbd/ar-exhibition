@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Mind-AR এর ফ্রি লাইব্রেরি -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  </head>
+  <body>
+
+    <!-- এখানে imageTargetSrc তে তোমার তৈরি করা targets.mind ফাইলটির নাম দেবে -->
+    <a-scene mindar-image="imageTargetSrc: targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      
+      <a-assets>
+        <!-- তোমার ভিডিও ফাইলটির নাম এখানে দেবে -->
+        <video id="exhibition-video" src="myvideo.mp4" preload="auto" loop="true" crossorigin="anonymous" playsinline></video>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <!-- targetIndex: 0 মানে তোমার প্রথম ছবি। এই ছবিটা ক্যামেরা পেলেই ভিডিও চালু হবে -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-video src="#exhibition-video" width="1" height="1" position="0 0 0" rotation="0 0 0"></a-video>
+      </a-entity>
+    </a-scene>
+
+    <!-- ভিডিও প্লে করার জন্য স্ক্রিনের ওপর একটা সহজ বাটন (মোবাইলে অটো-প্লে হয় না তাই) -->
+    <button id="play-btn" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px; z-index: 999; background: #000; color: #fff; border: none; border-radius: 5px; font-size: 16px;">
+      আর্ট স্ক্যান করে এখানে চাপুন
+    </button>
+
+    <script>
+      const video = document.querySelector('#exhibition-video');
+      const btn = document.querySelector('#play-btn');
+      btn.addEventListener('click', () => {
+        if (video.paused) {
+          video.play();
+          btn.style.display = 'none'; // প্লে হয়ে গেলে বাটনটি লুকিয়ে যাবে
+        }
+      });
+    </script>
+  </body>
+</html>
